@@ -43,6 +43,28 @@ function trufflebox_project_detail_add_meta_box() {
 
 add_action( 'add_meta_boxes', 'trufflebox_project_detail_add_meta_box' );
 
+/* Register all metabox to tpf-themes rest api */
+add_action( 'rest_api_init', 'trufflebox_register_metabox_rest');
+
+function trufflebox_register_metabox_rest() {
+	function trufflebox_get_all_post_meta($post) {
+			$meta = get_post_meta($post['id']);
+			$current_meta = get_post_meta($post['id']);
+			$meta_data = [];
+
+			foreach($current_meta as $key => $obj){
+				$meta_data[$key] = $obj[0];
+			}
+			
+			return $meta_data;
+		}
+
+    register_rest_field( 'jetpack-portfolio', 'post_meta', array(
+				'show_in_rest' => true,
+        'get_callback' => 'trufflebox_get_all_post_meta',
+    ));
+}
+
 function trufflebox_project_detail_html( $post) {
 	wp_nonce_field( '_trufflebox_project_detail_nonce', 'trufflebox_project_detail_nonce' ); ?>
 
