@@ -3,15 +3,15 @@
  * Plugin Name:       Truffle Box
  * Plugin URI:        http://septianfujianto.com/truffle-box/
  * Description:       Simple portable functionality plugin.
- * Version:           1.0.1
+ * Version:           2.0
  * Author:            Septian Ahmad Fujianto
  * Author URI:        http://septianfujianto.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       truffle-box
  * Domain Path:       /languages
- * Bitbucket Plugin URI: https://bitbucket.org/zucharest/truffle-box
- * Bitbucket Branch: master
+ * GitHub Plugin URI: https://github.com/fujianto/truffle-box/
+ * GitHub Branch: master
  */
 
 /**
