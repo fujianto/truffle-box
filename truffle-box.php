@@ -48,22 +48,60 @@ add_action( 'rest_api_init', 'trufflebox_register_metabox_rest');
 
 function trufflebox_register_metabox_rest() {
 	function trufflebox_get_all_post_meta($post) {
-			$meta = get_post_meta($post['id']);
-			$current_meta = get_post_meta($post['id']);
-			$meta_data = [];
+		$meta = get_post_meta($post['id']);
+		$current_meta = get_post_meta($post['id']);
+		$meta_data = [];
 
-			foreach($current_meta as $key => $obj){
-				$meta_data[$key] = $obj[0];
-			}
-			
-			return $meta_data;
+		foreach($current_meta as $key => $obj){
+			$meta_data[$key] = $obj[0];
 		}
+		
+		return $meta_data;
+	}
+
+	function trufflebox_get_all_custom_taxonomy() {
+		$term_type = get_the_terms(get_the_ID(),  'jetpack-portfolio-type');
+		$term_tag = get_the_terms(get_the_ID(),  'jetpack-portfolio-tag');
+		$term_type_data = [];
+		$term_tag_data = [];
+
+		foreach($term_type as $key => $obj){
+			 $term_type_data[$term_type[$key]->slug] =$term_type[$key];
+		}
+
+		foreach($term_tag as $key => $obj){
+			 $term_tag_data[$term_tag[$key]->slug] =$term_tag[$key];
+		}
+
+		return array( 'jetpack-portfolio-type' => $term_type_data, 'jetpack-portfolio-tag' => $term_tag_data);
+	}
+
+	function trufflebox_get_rest_featured_image( $object, $field_name, $request ) {
+		if( $object['featured_media'] ){
+				$img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
+				return $img[0];
+		}
+
+		return false;
+	}
+
+	register_rest_field( 'jetpack-portfolio', 'post_terms', array(
+			'show_in_rest' => true,
+			'get_callback' => 'trufflebox_get_all_custom_taxonomy',
+	));
+
+	register_rest_field( 'jetpack-portfolio', 'featured_image', array(
+			'show_in_rest' => true,
+			'get_callback' => 'trufflebox_get_rest_featured_image',
+	));
 
     register_rest_field( 'jetpack-portfolio', 'post_meta', array(
 				'show_in_rest' => true,
         'get_callback' => 'trufflebox_get_all_post_meta',
     ));
 }
+
+
 
 function trufflebox_project_detail_html( $post) {
 	wp_nonce_field( '_trufflebox_project_detail_nonce', 'trufflebox_project_detail_nonce' ); ?>
