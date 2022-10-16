@@ -10,6 +10,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       truffle-box
  * Domain Path:       /languages
+ * GitHub Plugin URI: fujianto/truffle-box
  * GitHub Plugin URI: https://github.com/fujianto/truffle-box/
  * GitHub Branch: master
  */
